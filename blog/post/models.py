@@ -9,9 +9,10 @@ class Post(models.Model):
     content = models.TextField()
     draft = models.BooleanField(default=False)
     created = models.DateTimeField(editable = False)
-    modified = models.DateTimeField()
+    modified = models.DateTimeField(editable=False)
     slug = models.SlugField(unique=True, editable=False, max_length=150)
-    image = models.ImageField(upload_to='media/post/')
+    image = models.ImageField(upload_to='post', null = True, blank = True)
+    modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='modified_by')
 
     def get_slug(self):
         slug = slugify(self.title.replace("ı","i"))
